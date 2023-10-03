@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    picture {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      width: 100px;
+      padding-bottom: 20px;
+    }
+    picture.is-small {
+      width: 50%;
+    }
+    picture.is-large {
+      width: 100%;
+    }
+    img {
+      box-shadow: 0 0 15px #999;
+      border-radius: 50%;
+      
+      
+    }
+    img.disabled {
+      opacity: 0.3;
+    }
+    h3 {
+      flex-direction: column ;
+      align-content: center;
+      align-items: center;
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      min-height: 50px;
+      display: block;
+      width: 100%;
+    }
+  </style>
+  <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script> 
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script> 
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js" ></script> 
+</head>
+<body>
+  <h1>Women in Tech</h1>.
+  <div id="app">
+    <picture>
+      <img src="https://randomuser.me/api/portraits/women/92.jpg">
+      Maria
+    </picture>
+    <picture>
+      <img src="https://randomuser.me/api/portraits/women/5.jpg">
+      Karla
+    </picture>
+  </div>
+  <script type="text/babel">
+    const $app = document.getElementById("app");
+    //const h = React.createElement;
+
+    const useState = React.useState;
+    /*const Avatar = props => { PUEDO CAMBIAR LO PROPS POR LAS PROPIEDADES 
+      QUE LE VOYA A PASAR, PARA USAR EL POR DEFECTO AHI EN ESTE CASO EL NAME...*/
+      const Avatar = ( {id, name = "kelly A", size } ) => {
+
+      const [enabled, setEnabled] = useState(true);
+      const src = `https://randomuser.me/api/portraits/women/${id}.jpg`;
+
+      /* RENDERIZADO CONDICIONAL OTRA FORMA DE HACERLO ES COMO EN LA LINEA 81
+      if (!id) 
+        return "Sin imagen!!"
+      FIN RENDERIZADO CONDICIONAL*/
+
+
+      let pictureClassName = "";
+      if (size === "small") {
+        pictureClassName = "is-small";
+      } else if (size === "large") {
+        pictureClassName = "is-large";
+      }
+
+      const imgclassName = enabled ? '' : "disabled";
+      // ESTO ES PARA USAR JSX
+      return (
+        <picture className={pictureClassName}>
+          {/*<img src={src} />*/}
+          {/*<img onClick = {event => {
+            event.target.classList.toggle("disabled");
+          }*/}
+          {id ? (
+            <img 
+            onClick = {() => setEnabled(!enabled)}
+            className= {imgclassName} 
+            src = {src}
+            />
+          ) : (
+            <h3>SIN IMAGEN</h3>
+          )}
+
+          {/*<strong>{props.name}</strong>//*/}
+          <strong>{enabled ? name : "Desactivado!!"}</strong>
+        </picture>
+        ); 
+      //return h("img", { src });
+    };
+
+    /* EJEMPLO SINO PASAMOS EL NOMBRE PODEMOS USAR UN DEFAULT LA FORMA VIEJA DE HACERLO, VER LINEA 53..
+    Avatar.defaultProps = {
+      name: "Kelly"
+    }*/
+    ReactDOM.render(
+      <div>
+        <Avatar id = {24} name = "Maria" size="small"/> {/* // ESTO ES PARA USAR JSX */}
+        <Avatar id = {40} name = "Fabiola" size="large" /> 
+        <Avatar id = {46} name = "Nancy" size="large"/> 
+        <Avatar id = {46}  size="large"/> 
+        <Avatar  size="large"/> 
+      </div>,
+    /*  h("div", null, [
+          h(Avatar, { id: 93 } ), 
+          h(Avatar, { id: 45 } ),
+          h(Avatar, { id: 43 } )
+        ]), */
+      $app);
+    
+    
+
+    /*const $app = document.getElementById('app');
+    const Avatar = params => {
+      const src = `https://randomuser.me/api/portraits/women/${params.id}.jpg`;
+      return `<picture>
+      <img src="${src}" />
+      <h3>${params.name}</h3>
+      </picture>`;
+    }
+    $app.innerHTML += Avatar({ id: 3, name: "Fiorella" });
+    $app.innerHTML += Avatar({ id: 10, name: "Sussana" });
+
+    $app.querySelectorAll("img").forEach(img => {
+      img.addEventListener("click", () => {
+        img.classList.toggle("disabled");
+      });
+    });*/
+  </script>
+</body>
+</html>
